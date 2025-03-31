@@ -33,13 +33,17 @@ function obj:windowRestore()
         return appNames
     end
 
-    -- Flexible comparison function with partial string match
+    local function trimTrailingNumbers(str)
+        return string.gsub(str, "[%s%d]+$", "") 
+    end
+
+    -- Comparison function with partial string match
     local function findAppInDock(activeAppName, dockApps)
         -- Convert to lowercase
-        local activeAppName = activeAppName:lower()
+        local activeAppName = trimTrailingNumbers(activeAppName:lower())
 
         for _, appName in ipairs(dockApps) do
-            local dockAppName = appName:lower()
+            local dockAppName = trimTrailingNumbers(appName:lower())
 
             -- Partial string matching: check if the simplified active app name is part of any dock app name
             if dockAppName:find(activeAppName, 1, true) then
